@@ -1,57 +1,51 @@
 // rbac-enhanced.js
 
-// Enhanced Role-Based Access Control
+// Enforce role-based access control in the application
 
-// Define roles
-const roles = {
-    admin: 'admin',
-    user: 'user',
-    guest: 'guest',
-};
+function enforceRolePermissions(role, action) {
+    // Check if the role is allowed to perform the action
+    const permissions = {
+        admin: ['create', 'read', 'update', 'delete'],
+        user: ['read'],
+        guest: []
+    };
 
-// Define permissions 
-const permissions = {
-    [roles.admin]: ['create', 'read', 'update', 'delete'],
-    [roles.user]: ['read'],
-    [roles.guest]: ['read'],
-};
-
-// Permission matrix 
-const permissionMatrix = {
-    admin: {
-        create: true,
-        read: true,
-        update: true,
-        delete: true,
-    },
-    user: {
-        create: false,
-        read: true,
-        update: false,
-        delete: false,
-    },
-    guest: {
-        create: false,
-        read: true,
-        update: false,
-        delete: false,
-    },
-};
-
-// Function to check permissions
-function hasPermission(role, action) {
-    return permissionMatrix[role][action] || false;
+    return permissions[role]?.includes(action) || false;
 }
 
-// Function to hide admin-only features
-function hideAdminFeatures(role) {
-    if (role === roles.admin) {
-        // Show admin features
-    } else {
-        // Hide admin features
-        console.log('Admin features hidden for: ', role);
+function validateAction(action) {
+    // Validate the action against enforced permissions
+    const userRole = getUserRole(); // Assume this function retrieves the user's role
+    if (!enforceRolePermissions(userRole, action)) {
+        alert('You do not have permissions to perform this action.');
+        return false;
+    }
+    return true;
+}
+
+function hideAdminFeatures() {
+    const userRole = getUserRole(); // Assume this function retrieves the user's role
+    if (userRole !== 'admin') {
+        const adminFeatures = document.querySelectorAll('.admin-feature'); // Assuming features are marked with a class
+        adminFeatures.forEach(feature => feature.style.display = 'none');
     }
 }
 
-// Exporting functions for external use
-module.exports = { hasPermission, hideAdminFeatures };
+function enforceReadOnly() {
+    const userRole = getUserRole(); // Assume this function retrieves the user's role
+    if (userRole === 'guest') {
+        const editableFields = document.querySelectorAll('input, textarea, select');
+        editableFields.forEach(field => {
+            field.setAttribute('disabled', 'disabled');
+        });
+    }
+}
+
+function initializeRBAC() {
+    hideAdminFeatures();
+    enforceReadOnly();
+    // Other initialization code here
+}
+
+// Call the RBAC initialization function on page load
+initializeRBAC();
