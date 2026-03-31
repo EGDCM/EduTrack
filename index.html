@@ -1,20 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>EduTrack — College Management</title>
-<meta name="description" content="College Attendance & Academic Management System">
+<meta name="description" content="College Attendance &amp; Academic Management System">
 <meta name="theme-color" content="#1e2a3a">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="EduTrack">
 <meta name="mobile-web-app-capable" content="yes">
-<link rel="manifest" id="pwa-manifest">
+<link rel="manifest" id="pwa-manifest" href="blob:https://egdcm.github.io/306387e3-518e-4574-959d-7aec0bf2ca79">
 <!-- Firebase SDK (compat) -->
 <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&amp;family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,400&amp;family=DM+Sans:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -371,7 +370,7 @@ textarea.form-input{font-family:'DM Sans',sans-serif}
 <!-- ════════════════════════════════════════
      LOGIN
 ════════════════════════════════════════ -->
-<div id="login-screen">
+<div id="login-screen" class="hidden">
   <div class="login-box">
     <div class="login-logo">Edu<span>Track</span></div>
     <div class="login-sub">COLLEGE MANAGEMENT SYSTEM</div>
@@ -385,7 +384,7 @@ textarea.form-input{font-family:'DM Sans',sans-serif}
       <label class="form-label">Password</label>
       <input class="form-input" id="lp" type="password" placeholder="Password" onkeydown="if(event.key==='Enter')doLogin()">
     </div>
-    <div class="login-err" id="lerr" style="transition:all .2s">Invalid credentials. Please try again.</div>
+    <div class="login-err" id="lerr" style="transition: 0.2s; display: block; background: rgb(253, 226, 226); color: rgb(139, 26, 26);">Session error — please try again.</div>
     <button class="btn btn-primary" style="width:100%;justify-content:center;padding:10px" onclick="doLogin()">Sign In →</button>
   </div>
 </div>
@@ -489,7 +488,7 @@ textarea.form-input{font-family:'DM Sans',sans-serif}
 <!-- ════════════════════════════════════════
      APP
 ════════════════════════════════════════ -->
-<div id="app" style="display:none">
+<div id="app" style="display: block;">
 <div class="header">
   <div style="display:flex;align-items:center;gap:12px">
     <div class="hamburger" onclick="toggleSb()"><span></span><span></span><span></span></div>
@@ -499,11 +498,11 @@ textarea.form-input{font-family:'DM Sans',sans-serif}
     <button class="btn btn-purple btn-sm no-print" onclick="openPublic()" title="Open shareable public dashboard">🔗 Share Dashboard</button>
     <div class="alert-bell" onclick="showPage('alerts')">🔔<span class="bcnt" id="alert-count">0</span></div>
     <div class="sync-chip" id="sync-chip" title="Firebase sync status" onclick="showPage('settings')">
-      <span class="sync-dot local" id="sync-dot"></span>
-      <span id="sync-label">Local</span>
+      <span class="sync-dot synced" id="sync-dot"></span>
+      <span id="sync-label">Synced</span>
     </div>
-    <span class="role-badge" id="role-badge"></span>
-    <span class="user-chip" id="user-chip"></span>
+    <span class="role-badge role-admin" id="role-badge">ADMIN</span>
+    <span class="user-chip" id="user-chip">Aadil</span>
     <button class="btn btn-ghost btn-sm no-print" onclick="doLogout()">↩ Sign Out</button>
   </div>
 </div>
@@ -516,7 +515,7 @@ textarea.form-input{font-family:'DM Sans',sans-serif}
 <div class="app-body">
 <div class="sidebar" id="sidebar">
   <div class="nav-sec">Main</div>
-  <div class="nav-item active" onclick="showPage('dashboard')"><span class="nav-icon">📊</span><span>Dashboard</span></div>
+  <div class="nav-item" onclick="showPage('dashboard')"><span class="nav-icon">📊</span><span>Dashboard</span></div>
   <div class="nav-item" onclick="showPage('attendance')"><span class="nav-icon">📋</span><span>Attendance</span></div>
   <div class="nav-item" onclick="showPage('students')"><span class="nav-icon">👥</span><span>Students</span></div>
   <div class="nav-sec">Academic</div>
@@ -531,29 +530,34 @@ textarea.form-input{font-family:'DM Sans',sans-serif}
   <div class="nav-item" onclick="showPage('resources')"><span class="nav-icon">📚</span><span>Resources</span></div>
   <div class="nav-sec">Config</div>
   <div class="nav-item admin-only" onclick="showPage('classes')"><span class="nav-icon">🏫</span><span>Classes</span></div>
-  <div class="nav-item admin-only" onclick="showPage('settings')"><span class="nav-icon">⚙️</span><span>Settings</span></div>
+  <div class="nav-item admin-only active" onclick="showPage('settings')"><span class="nav-icon">⚙️</span><span>Settings</span></div>
 </div>
 
 <div class="main">
 
 <!-- ── DASHBOARD ── -->
-<div class="page active" id="page-dashboard">
+<div class="page" id="page-dashboard">
   <div class="page-header">
-    <div><div class="page-title">Dashboard</div><div class="page-sub" id="dash-date"></div></div>
+    <div><div class="page-title">Dashboard</div><div class="page-sub" id="dash-date">WEDNESDAY, 1 APRIL 2026</div></div>
     <div style="display:flex;gap:8px;flex-wrap:wrap">
       <button class="btn btn-purple btn-sm" onclick="openPublic()">🔗 Share Dashboard</button>
       <button class="btn btn-ghost btn-sm" onclick="exportAllCSV()">📤 Export All CSV</button>
     </div>
   </div>
   <div class="stats-bar">
-    <div class="stat-card s1"><div class="stat-value" id="d-students">0</div><div class="stat-label">Students</div></div>
-    <div class="stat-card s2"><div class="stat-value" id="d-att">—</div><div class="stat-label">Avg Attendance</div></div>
-    <div class="stat-card s3"><div class="stat-value" id="d-submit">—</div><div class="stat-label">Submission Rate</div></div>
+    <div class="stat-card s1"><div class="stat-value" id="d-students">23</div><div class="stat-label">Students</div></div>
+    <div class="stat-card s2"><div class="stat-value" id="d-att">98%</div><div class="stat-label">Avg Attendance</div></div>
+    <div class="stat-card s3"><div class="stat-value" id="d-submit">0%</div><div class="stat-label">Submission Rate</div></div>
     <div class="stat-card s4"><div class="stat-value" id="d-score">—</div><div class="stat-label">Avg Exam Score</div></div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px" id="dash-grids">
-    <div class="tw"><div class="ttb"><div class="ttb-title">⚠ At-Risk Students</div></div><div id="dash-atrisk"></div></div>
-    <div class="tw"><div class="ttb"><div class="ttb-title">📅 Today's Schedule</div></div><div id="dash-today"></div></div>
+    <div class="tw"><div class="ttb"><div class="ttb-title">⚠ At-Risk Students</div></div><div id="dash-atrisk"><div style="display:flex;align-items:center;justify-content:space-between;padding:9px 16px;border-bottom:1px solid var(--border)">
+    <div class="sc"><div class="s-avatar" style="background:#1a6b3c">D</div>Danish</div>
+    <span class="score-low" style="font-family:'DM Mono',monospace;font-size:13px">50%</span>
+  </div></div></div>
+    <div class="tw"><div class="ttb"><div class="ttb-title">📅 Today's Schedule</div></div><div id="dash-today"><div style="padding:9px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between">
+    <div><div style="font-weight:600;font-size:13px">Data Structures</div><div style="font-size:11px;color:var(--muted);font-family:'DM Mono',monospace">9:00–10:00 · LH-3</div></div>
+  </div></div></div>
   </div>
   <div class="tw">
     <div class="ttb"><div class="ttb-title">Student Performance</div><button class="btn btn-ghost btn-sm" onclick="exportCSV('overview')">📤 CSV</button></div>
@@ -566,7 +570,7 @@ textarea.form-input{font-family:'DM Sans',sans-serif}
   <div class="page-header">
     <div><div class="page-title">Attendance</div><div class="page-sub" id="att-date-label">—</div></div>
     <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
-      <select class="filter-select" id="att-cf" onchange="renderAtt()"></select>
+      <select class="filter-select" id="att-cf" onchange="renderAtt()"><option value="">All Classes</option><option value="2">— Sem 4 — Economics</option><option value="3">6th Sem — Economics</option><option value="4">Stat — Stat</option></select>
       <input type="date" id="att-dp" class="filter-select" onchange="renderAtt()">
       <button class="btn btn-primary btn-sm" onclick="saveAtt()">💾 Save</button>
       <button class="btn btn-ghost btn-sm" onclick="exportCSV('attendance')">📤 CSV</button>
@@ -600,7 +604,7 @@ textarea.form-input{font-family:'DM Sans',sans-serif}
   </div>
   <div class="filter-bar">
     <input type="text" class="search-input" placeholder="🔍 Search..." oninput="renderStudents(this.value)">
-    <select class="filter-select" id="stu-cf" onchange="renderStudents()"><option value="">All Classes</option></select>
+    <select class="filter-select" id="stu-cf" onchange="renderStudents()"><option value="">All Classes</option><option value="2">— Sem 4 — Economics</option><option value="3">6th Sem — Economics</option><option value="4">Stat — Stat</option></select>
   </div>
   <div class="tw"><div class="ovx"><table><thead><tr><th>STUDENT</th><th>ROLL NO</th><th>CLASS</th><th>EMAIL</th><th>ATTENDANCE</th><th>ASSIGNMENTS</th><th>AVG SCORE</th><th></th></tr></thead><tbody id="students-tbody"></tbody></table></div></div>
 </div>
@@ -615,8 +619,8 @@ textarea.form-input{font-family:'DM Sans',sans-serif}
     </div>
   </div>
   <div class="filter-bar">
-    <select class="filter-select" id="asgn-cf" onchange="renderAssignments()"><option value="">All Classes</option></select>
-    <select class="filter-select" id="asgn-f" onchange="renderAssignments()"><option value="">All Assignments</option></select>
+    <select class="filter-select" id="asgn-cf" onchange="renderAssignments()"><option value="">All Classes</option><option value="2">— Sem 4 — Economics</option><option value="3">6th Sem — Economics</option><option value="4">Stat — Stat</option></select>
+    <select class="filter-select" id="asgn-f" onchange="renderAssignments()"><option value="">All Assignments</option><option value="1">Lab Report 1</option><option value="2">Problem Set 3</option></select>
   </div>
   <div id="asgn-tables"></div>
 </div>
@@ -631,8 +635,8 @@ textarea.form-input{font-family:'DM Sans',sans-serif}
     </div>
   </div>
   <div class="filter-bar">
-    <select class="filter-select" id="exam-cf" onchange="renderExams()"><option value="">All Classes</option></select>
-    <select class="filter-select" id="exam-f" onchange="renderExams()"><option value="">All Exams</option></select>
+    <select class="filter-select" id="exam-cf" onchange="renderExams()"><option value="">All Classes</option><option value="2">— Sem 4 — Economics</option><option value="3">6th Sem — Economics</option><option value="4">Stat — Stat</option></select>
+    <select class="filter-select" id="exam-f" onchange="renderExams()"><option value="">All Exams</option><option value="1">Midterm — Data Structures</option><option value="2">Quiz 1 — Mathematics</option></select>
   </div>
   <div id="exam-tables"></div>
 </div>
@@ -644,7 +648,7 @@ textarea.form-input{font-family:'DM Sans',sans-serif}
     <button class="btn btn-primary can-edit" onclick="openAdd('slot')">＋ Add Slot</button>
   </div>
   <div class="tw">
-    <div class="ttb"><div class="ttb-title">Weekly Class Schedule</div><span class="db" id="tt-wk"></span></div>
+    <div class="ttb"><div class="ttb-title">Weekly Class Schedule</div><span class="db" id="tt-wk">Week of 31 Mar 2026</span></div>
     <div style="padding:14px;overflow-x:auto"><div class="ttg" id="ttg"></div></div>
   </div>
 </div>
@@ -666,7 +670,7 @@ textarea.form-input{font-family:'DM Sans',sans-serif}
 <div class="page" id="page-reports">
   <div class="page-header"><div><div class="page-title">Report Cards</div><div class="page-sub">PRINTABLE STUDENT REPORTS</div></div></div>
   <div class="filter-bar">
-    <select class="filter-select" id="rep-cf" onchange="renderReports()"><option value="">All Classes</option></select>
+    <select class="filter-select" id="rep-cf" onchange="renderReports()"><option value="">All Classes</option><option value="2">— Sem 4 — Economics</option><option value="3">6th Sem — Economics</option><option value="4">Stat — Stat</option></select>
     <input type="text" class="search-input" placeholder="🔍 Search student..." oninput="renderReports(this.value)">
   </div>
   <div id="rep-list"></div>
@@ -680,7 +684,7 @@ textarea.form-input{font-family:'DM Sans',sans-serif}
   </div>
   <div class="filter-bar">
     <select class="filter-select" id="res-tf" onchange="renderResources()"><option value="">All Types</option><option value="book">📗 Books</option><option value="article">📄 Articles</option><option value="paper">🔬 Papers</option></select>
-    <select class="filter-select" id="res-sf" onchange="renderResources()"><option value="">All Subjects</option></select>
+    <select class="filter-select" id="res-sf" onchange="renderResources()"><option value="">All Subjects</option><option value="Data Structures">Data Structures</option><option value="Mathematics">Mathematics</option><option value="Computer Science">Computer Science</option></select>
     <input type="text" class="search-input" placeholder="🔍 Search..." oninput="renderResources(this.value)">
   </div>
   <div id="res-con"></div>
@@ -689,29 +693,53 @@ textarea.form-input{font-family:'DM Sans',sans-serif}
 <!-- ── CLASSES ── -->
 <div class="page" id="page-classes">
   <div class="page-header">
-    <div><div class="page-title">Classes</div><div class="page-sub">SUBJECTS & SECTIONS</div></div>
+    <div><div class="page-title">Classes</div><div class="page-sub">SUBJECTS &amp; SECTIONS</div></div>
     <button class="btn btn-primary can-edit" onclick="openAdd('class')">＋ New Class</button>
   </div>
   <div id="cls-cards-container"></div>
 </div>
 
 <!-- ── SETTINGS ── -->
-<div class="page" id="page-settings">
+<div class="page active" id="page-settings">
   <div class="page-header"><div><div class="page-title">Settings</div><div class="page-sub">SYSTEM CONFIGURATION</div></div></div>
   <div class="tab-bar">
-    <div class="tab active" onclick="showSettingsTab('users',this)" id="stab-users">👤 User Management</div>
+    <div class="tab" onclick="showSettingsTab('users',this)" id="stab-users">👤 User Management</div>
     <div class="tab" onclick="showSettingsTab('college',this)">🏫 College Settings</div>
     <div class="tab" onclick="showSettingsTab('pref',this)">🎛 Preferences</div>
-    <div class="tab" onclick="showSettingsTab('backup',this)">💾 Backup & Restore</div>
-    <div class="tab" onclick="showSettingsTab('firebase',this)">🔥 Firebase Sync</div>
+    <div class="tab" onclick="showSettingsTab('backup',this)">💾 Backup &amp; Restore</div>
+    <div class="tab active" onclick="showSettingsTab('firebase',this)">🔥 Firebase Sync</div>
   </div>
   <!-- USERS TAB -->
-  <div id="stab-users-content">
+  <div id="stab-users-content" style="display: none;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px">
       <p style="font-size:13px;color:var(--muted)">Manage system users. Only Admins can create and manage logins.</p>
       <button class="btn btn-primary admin-only" onclick="openAdd('user')">＋ Create Login</button>
     </div>
-    <div id="users-list"></div>
+    <div id="users-list">
+    <div class="user-card">
+      <div class="user-avatar" style="background:#c0392b">A</div>
+      <div class="user-info">
+        <div class="user-name">Aadil <span style="font-size:11px;color:var(--muted)">(you)</span></div>
+        <div class="user-meta">Administration · <span class="role-badge role-admin">Administrator</span></div>
+        <div class="cred-box"><span>username:</span> Aadileco &nbsp;|&nbsp; <span>email:</span> —</div>
+      </div>
+      <div class="action-btns">
+        <button class="btn btn-ghost btn-xs" onclick="openEdit('user',1)">✏️ Edit</button>
+             
+      </div>
+    </div>
+    <div class="user-card">
+      <div class="user-avatar" style="background:#d4522a">G</div>
+      <div class="user-info">
+        <div class="user-name">Gowsia </div>
+        <div class="user-meta">Stat · <span class="role-badge role-teacher">Teacher / Faculty</span></div>
+        <div class="cred-box"><span>username:</span> Gowsia &nbsp;|&nbsp; <span>email:</span> —</div>
+      </div>
+      <div class="action-btns">
+        <button class="btn btn-ghost btn-xs" onclick="openEdit('user',5)">✏️ Edit</button>
+             <button class="btn btn-danger btn-xs" onclick="deleteUser(5)">✕</button>
+      </div>
+    </div></div>
   </div>
   <!-- COLLEGE TAB -->
   <div id="stab-college-content" style="display:none">
@@ -738,7 +766,7 @@ textarea.form-input{font-family:'DM Sans',sans-serif}
     </div>
   </div>
   <!-- FIREBASE TAB -->
-  <div id="stab-firebase-content" style="display:none">
+  <div id="stab-firebase-content" style="display: block;">
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
 
       <!-- Setup Guide -->
@@ -763,7 +791,7 @@ textarea.form-input{font-family:'DM Sans',sans-serif}
         </div>
         <div class="firebase-step">
           <b>Step 5 — Paste below and Connect</b>
-          <p>Paste the two values on the right, click <b>Connect & Sync</b>. Share the same HTML file with your teachers — everyone will see the same live data.</p>
+          <p>Paste the two values on the right, click <b>Connect &amp; Sync</b>. Share the same HTML file with your teachers — everyone will see the same live data.</p>
         </div>
       </div>
 
@@ -784,10 +812,10 @@ textarea.form-input{font-family:'DM Sans',sans-serif}
             <input class="form-input" id="fb-pid" placeholder="your-project-id">
           </div>
 
-          <div id="fb-status-box" style="display:none;padding:10px 12px;border-radius:5px;font-size:12px;font-family:'DM Mono',monospace;margin-bottom:12px"></div>
+          <div id="fb-status-box" style="display: block; padding: 10px 12px; border-radius: 5px; font-size: 12px; font-family: &quot;DM Mono&quot;, monospace; margin-bottom: 12px; background: rgb(213, 232, 247); color: rgb(26, 74, 110); border: 1px solid rgb(154, 197, 232); white-space: pre-wrap;">⏳ Generating file…</div>
 
           <div style="display:flex;gap:8px;flex-wrap:wrap">
-            <button class="btn btn-primary" onclick="connectFirebase()" style="flex:1">🔥 Connect & Sync</button>
+            <button class="btn btn-primary" onclick="connectFirebase()" style="flex:1">🔥 Connect &amp; Sync</button>
             <button class="btn btn-ghost btn-sm" onclick="disconnectFirebase()">Disconnect</button>
           </div>
           <div style="margin-top:10px">
@@ -808,7 +836,10 @@ textarea.form-input{font-family:'DM Sans',sans-serif}
 
         <div class="tw" style="padding:16px;margin-top:0">
           <div style="font-weight:600;font-size:13px;margin-bottom:8px">📡 Sync Status</div>
-          <div id="fb-sync-details" style="font-size:12px;color:var(--muted);font-family:'DM Mono',monospace;line-height:2">Not connected</div>
+          <div id="fb-sync-details" style="font-size:12px;color:var(--muted);font-family:'DM Mono',monospace;line-height:2"><span style="color:var(--present)">● Connected</span><br>
+        Database: https://edutrack-eadee-default-rtdb.firebaseio.com<br>
+        Last sync: 12:04:53 am<br>
+        Listening for real-time changes: ✓</div>
         </div>
       </div>
 
@@ -934,7 +965,7 @@ textarea.form-input{font-family:'DM Sans',sans-serif}
     <div class="form-row"><label class="form-label">Full Name</label><input class="form-input" id="s-name" placeholder="e.g. Aisha Khan"></div>
     <div class="form-row-2">
       <div class="form-row"><label class="form-label">Roll Number</label><input class="form-input" id="s-roll" placeholder="e.g. CS-24-01"></div>
-      <div class="form-row"><label class="form-label">Class</label><select class="form-input" id="s-class"></select></div>
+      <div class="form-row"><label class="form-label">Class</label><select class="form-input" id="s-class"><option value="2">— Sem 4 — Economics</option><option value="3">6th Sem — Economics</option><option value="4">Stat — Stat</option></select></div>
     </div>
     <div class="form-row-2">
       <div class="form-row"><label class="form-label">Email</label><input class="form-input" id="s-email" type="email" placeholder="student@college.edu"></div>
@@ -973,7 +1004,7 @@ textarea.form-input{font-family:'DM Sans',sans-serif}
     <input type="hidden" id="aid-edit">
     <div class="form-row"><label class="form-label">Title</label><input class="form-input" id="a-title" placeholder="e.g. Lab Report 1"></div>
     <div class="form-row-2">
-      <div class="form-row"><label class="form-label">Class</label><select class="form-input" id="a-class"></select></div>
+      <div class="form-row"><label class="form-label">Class</label><select class="form-input" id="a-class"><option value="2">— Sem 4 — Economics</option><option value="3">6th Sem — Economics</option><option value="4">Stat — Stat</option></select></div>
       <div class="form-row"><label class="form-label">Subject</label><input class="form-input" id="a-subject" placeholder="e.g. Physics"></div>
     </div>
     <div class="form-row-2">
@@ -995,7 +1026,7 @@ textarea.form-input{font-family:'DM Sans',sans-serif}
     <input type="hidden" id="eid-edit">
     <div class="form-row"><label class="form-label">Title</label><input class="form-input" id="e-title" placeholder="e.g. Midterm — Mathematics"></div>
     <div class="form-row-2">
-      <div class="form-row"><label class="form-label">Class</label><select class="form-input" id="e-class"></select></div>
+      <div class="form-row"><label class="form-label">Class</label><select class="form-input" id="e-class"><option value="2">— Sem 4 — Economics</option><option value="3">6th Sem — Economics</option><option value="4">Stat — Stat</option></select></div>
       <div class="form-row"><label class="form-label">Subject</label><input class="form-input" id="e-subject" placeholder="e.g. Mathematics"></div>
     </div>
     <div class="form-row-2">
@@ -1027,7 +1058,7 @@ textarea.form-input{font-family:'DM Sans',sans-serif}
         </select>
       </div>
     </div>
-    <div class="form-row"><label class="form-label">Class</label><select class="form-input" id="tt-class"></select></div>
+    <div class="form-row"><label class="form-label">Class</label><select class="form-input" id="tt-class"><option value="2">— Sem 4 — Economics</option><option value="3">6th Sem — Economics</option><option value="4">Stat — Stat</option></select></div>
     <div class="form-row-2">
       <div class="form-row"><label class="form-label">Subject</label><input class="form-input" id="tt-subject" placeholder="e.g. Physics"></div>
       <div class="form-row"><label class="form-label">Room / Venue</label><input class="form-input" id="tt-room" placeholder="e.g. LH-3"></div>
@@ -1065,15 +1096,15 @@ textarea.form-input{font-family:'DM Sans',sans-serif}
 <!-- User Modal (admin only) -->
 <div class="modal-overlay" id="m-user">
   <div class="modal">
-    <div class="modal-title" id="m-user-title">✏️ User Account</div>
-    <input type="hidden" id="uid-edit">
+    <div class="modal-title" id="m-user-title">✏️ Edit User</div>
+    <input type="hidden" id="uid-edit" value="1">
     <div class="form-row"><label class="form-label">Full Name</label><input class="form-input" id="u-name" placeholder="e.g. Prof. Safia Bhat"></div>
     <div class="form-row-2">
       <div class="form-row"><label class="form-label">Username</label><input class="form-input" id="u-username" placeholder="e.g. safia_bhat"></div>
       <div class="form-row"><label class="form-label">Role</label>
         <select class="form-input" id="u-role">
           <option value="admin">🔑 Administrator</option>
-          <option value="teacher" selected>👨‍🏫 Teacher / Faculty</option>
+          <option value="teacher" selected="">👨‍🏫 Teacher / Faculty</option>
           <option value="viewer">👁 Viewer (Read-only)</option>
         </select>
       </div>
@@ -1091,7 +1122,7 @@ textarea.form-input{font-family:'DM Sans',sans-serif}
   </div>
 </div>
 
-<div class="pwa-banner" id="pwa-banner">
+<div class="pwa-banner show" id="pwa-banner">
   <div style="font-size:28px">📱</div>
   <div class="pwa-banner-text">
     <b>Install EduTrack as an App</b>
@@ -1137,7 +1168,7 @@ textarea.form-input{font-family:'DM Sans',sans-serif}
     </div>
   </div>
 </div>
-<div class="toast" id="toast"></div>
+<div class="toast" id="toast">Aadil updated ✓</div>
 
 <!-- ════════════════════════════════════════
      JAVASCRIPT
@@ -1318,9 +1349,9 @@ function save(){
 // Then re-uploads the HTML to GitHub — all devices get the config automatically
 // ═══════════════════════════════════════════
 const BAKED_FIREBASE={
-  databaseURL: '',   // e.g. https://your-project-rtdb.firebaseio.com
-  apiKey:      '',   // e.g. AIzaSy...
-  projectId:   ''    // e.g. your-project-id
+  databaseURL: 'https://edutrack-eadee-default-rtdb.firebaseio.com',
+  apiKey:      '586833760527',
+  projectId:   'edutrack-eadee'
 };
 
 let fbApp=null, fbDB=null, fbRef=null, fbListener=null;
@@ -3453,5 +3484,6 @@ loadDB();
 })();
 
 </script>
-</body>
-</html>
+
+
+</div></body></html>
